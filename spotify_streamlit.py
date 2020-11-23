@@ -2,7 +2,6 @@ import os
 import time
 import streamlit as st
 import spotipy
-import spotipy.util as util
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 from collections import OrderedDict
 
@@ -18,7 +17,7 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 username = ""
 scope = 'playlist-modify-public'
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,client_secret=SECRET,redirect_uri='http://192.168.1.248:8502',scope=scope))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,client_secret=SECRET,redirect_uri='https://share.streamlit.io/pkbro/spotify_insights/spotify_streamlit.py',scope=scope))
 
 
 #
