@@ -2,43 +2,18 @@ import os
 import time
 import streamlit as st
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+from spotipy.oauth2 import SpotifyClientCredentials
 from collections import OrderedDict
 
 st.set_page_config(page_title="Detailed Discover", page_icon='📻')
-#u+1F4FB
 
 CLIENT_ID = "66a139d6fb074a1a9be5dd368ab7b779"
 SECRET = "e0d402e090384a159aaa1043fde50e31"
 
-#os.environ.get
-
-client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=SECRET)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-
-
-# username = ""
-# scope = 'playlist-modify-public'
-# sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,client_secret=SECRET,redirect_uri='https://share.streamlit.io/pkbro/spotify_insights/spotify_streamlit.py',scope=scope))
-
-
-#
-# token = util.prompt_for_user_token(username, scope, redirect_uri="")
-# if token:
-#     sp = spotipy.Spotify(auth=token)
-# else:
-#     print("Can't get token for", username)
-
-
-
-
-
-
 #Create application from spotify developers site and retrieve Client ID and Secret.
 #Set up Spotify Client Credentials and spotipy object.
-# client_credentials_manager = SpotifyClientCredentials(client_id = CLIENT_ID,
-#     client_secret = SECRET)
-# sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=SECRET)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 #List of genres accepted by recommendation endpoint
 FULL_GENRE_SEED_LST = sp.recommendation_genre_seeds()['genres']
@@ -95,8 +70,7 @@ def display_track(general_d, audio_feat_d):
     col1, col2 = st.beta_columns(2)
     search_track_key = tonics[audio_feat_d['key']] + " " + mode[audio_feat_d['mode']]
     search_tempo = round(audio_feat_d['tempo'])
-    #col1.markdown("![Alt Text]({})".format(general_d['alb_cov']))
-    #^if this doesn't work try
+
     col1.image(general_d['alb_cov'], use_column_width = True)
     col2.markdown("<p style='text-align: center; font-style: italic'>{}</p>".format(general_d['track_name']), unsafe_allow_html=True)
     col2.markdown("<p style='text-align: center; font-weight: bold'>{}</p>".format(general_d['arts_name']), unsafe_allow_html=True)
@@ -200,7 +174,7 @@ def get_filters(filt_list, audio_feat_d):
                 label = "Select a Target {} For Recommended Songs. Tracks with attribute values nearest to the target will be preferred".format(x)
                 song_attr_val = st.sidebar.slider(label, 0.01, 1.0, .01)
 
-            if type(song_attr_val) == list: #will be musical key
+            if type(song_attr_val) == list: #musical key
                 if song_attr_val[0] != '2':
                     filt_rec_params.extend((('min_mode',int(song_attr_val[0])), ('max_mode', int(song_attr_val[0]))))
 
@@ -210,12 +184,11 @@ def get_filters(filt_list, audio_feat_d):
                 ('max_key',list(tonics.keys())[list(tonics.values()).index(song_attr_val[1][1])])))
 
 
-            elif type(song_attr_val) == tuple: #will be tempo
+            elif type(song_attr_val) == tuple: #tempo
                 filt_rec_params.extend((('min_tempo', song_attr_val[0]),
                 ('max_tempo', song_attr_val[1])))
             else:
                 filt_rec_params.append(('target_{}'.format(x.lower()), song_attr_val))
-    # if not filt_rec_params:
 
     filt_d = OrderedDict(filt_rec_params)
     return filt_d
@@ -223,13 +196,8 @@ def get_filters(filt_list, audio_feat_d):
 #RECOMMENDATION CALL
 def get_recs(filters, orig_track_d):
     rec_list = []
-    #params examples min_tempo max_tempo, min mode, target_energy
-    #may want variable keyword positional arguments here. syntax something like rec(**{'seed_artists': get_rel_arts(orig_track_d), 'min_tempo': 100...})
-    #good practice is to use kwargs = {} then recs(**kwargs)
-    # st.write(get_genres(orig_track_d))
-    #seed_genres=get_genres(orig_track_d)
     recs = sp.recommendations(seed_artists=get_rel_arts(orig_track_d)[:3],seed_tracks=get_tracks(orig_track_d)[:2], limit=100, **filters)
-    #
+
     for x in recs['tracks']:
         if (x['name'] == orig_track_d['track_name']) and (x['artists'][0]['name'] == orig_track_d['arts_name']):
             continue
@@ -238,7 +206,7 @@ def get_recs(filters, orig_track_d):
             rec_arts = (", ").join([y['name'] for y in x['artists']])
         else:
             rec_arts = x['artists'][0]['name']
-        #rec_d[x['name']] = [rec_arts, x['album']['images'][1]['url'], x['preview_url']]
+
         rec_track_d['track_uri'] = x['uri']
         rec_track_d['track_name'] = x['name']
         rec_track_d['arts_name'] = rec_arts
@@ -284,24 +252,11 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
-# @st.cache(allow_output_mutation=True)
-
-# while len(res['tracks']['items']) == 0:
-#     new = st.write("This track was not found. Please try another: ")
-#     res = sp.search("track:{} artist:{}".format(t,a),limit=1)
-# song_in = st.text_input("Song Title:", "").lower().strip()
-# art_in = st.text_input("Artist:", "").lower().strip()
-def playlist_creation():
-    sp.user_create_playlist()
-
 def get_res():
     song_in = st.text_input("Song Title:", "").lower().strip()
     art_in = st.text_input("Artist:", "").lower().strip()
     resp = sp.search("track:{} artist:{}".format(song_in,art_in),limit=2)
     return resp
-
-app_use_purpose = st.selectbox("Select Your Use (You'll Be Asked To Confirm Before Creating)", ("Browse", "Create New Playlist", ))
 
 first_res = get_res()
 if first_res:
@@ -338,33 +293,3 @@ if first_res:
     except IndexError:
         st.error("Not found. Check spelling or enter a new track.")
         first_res = get_res()
-
-
-
-# if first_res:
-#     search_track_dict = set_search_track_values(first_res)
-#     audio_features = get_search_aud_feats(search_track_dict['track_uri'])
-#     display_track(search_track_dict, audio_features)
-#     # if audio_features:
-#     #     st.image("circle-of-fifths.jpg", caption="Circle of Fifths", use_column_width=True)
-#     # song_limit = st.slider("Choose a number of songs to return:")
-#     filter_options = st.sidebar.multiselect("Select Desired Filters", ["Tempo", "Key", "Danceability", "Energy", "Instrumentalness", "Valence"], key='1')
-#     final_filters = get_filters(filter_options)
-#     if st.sidebar.button("Get Songs 🎵"):
-#         r = get_recs(final_filters, search_track_dict)
-#         placeholder = st.empty()
-#         prog_bar = placeholder.progress(0)
-#         i = 0
-#         aud_feats_lst = []
-#         for song in r:
-#             aud_feats_lst.append(get_search_aud_feats(song['track_uri']))
-#             # time.sleep(0.1)
-#             i += 1
-#             prog_bar.progress(i)
-#         time.sleep(3)
-#         placeholder.empty()
-#         st.balloons()
-#         final_rec_songs_lst = list(zip(r,aud_feats_lst))
-#         for song, aud_feat in final_rec_songs_lst:
-#             #display_track(song, get_search_aud_feats(song['track_uri']))
-#             display_track(song, aud_feat)
