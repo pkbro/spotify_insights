@@ -13,13 +13,13 @@ SECRET = "e0d402e090384a159aaa1043fde50e31"
 
 #os.environ.get
 
-# client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=SECRET)
-# sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=SECRET)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-username = ""
-scope = 'playlist-modify-public'
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,client_secret=SECRET,redirect_uri='https://share.streamlit.io/pkbro/spotify_insights/spotify_streamlit.py',scope=scope))
+# username = ""
+# scope = 'playlist-modify-public'
+# sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID,client_secret=SECRET,redirect_uri='https://share.streamlit.io/pkbro/spotify_insights/spotify_streamlit.py',scope=scope))
 
 
 #
