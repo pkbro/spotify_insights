@@ -8,11 +8,13 @@ from collections import OrderedDict
 st.set_page_config(page_title="Detailed Discover", page_icon='📻')
 #u+1F4FB
 
-CLIENT_ID = os.environ.get("SPOTIFY_CLIENT_ID")
-SECRET = os.environ.get("SPOTIFY_SECRET")
+CLIENT_ID = "66a139d6fb074a1a9be5dd368ab7b779"
+SECRET = "e0d402e090384a159aaa1043fde50e31"
 
-client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=SECRET)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+#os.environ.get
+
+# client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=SECRET)
+# sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 username = ""
 scope = 'playlist-modify-public'
