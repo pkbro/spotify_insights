@@ -217,7 +217,7 @@ def get_recs(filters, orig_track_d):
 
 
 
-with st.sidebar.beta_expander("See Track Attribute Term Explanations"):
+with st.sidebar.beta_expander("Filter Explanations"):
     st.markdown('''
     ## Terms
     - **BPM**: Beats Per Minute
