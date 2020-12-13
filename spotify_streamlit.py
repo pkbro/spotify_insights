@@ -234,6 +234,7 @@ with st.sidebar.beta_expander("See Track Attribute Term Explanations"):
     ''')
 st.markdown('<style>h1{font-family:"Franklin Gothic Medium", sans-serif;}</style>', unsafe_allow_html=True)
 st.markdown('<style>h4{font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif; font-weight: lighter;}', unsafe_allow_html=True)
+st.markdown('<style>p{font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif; font-weight: lighter;}', unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Refine Your Recommendations</h1>", unsafe_allow_html=True)
 st.markdown('''<h4>Use Spotify's API to find songs related to a track based on criteria of your choosing. This can be a useful tool for those looking to jam to songs in specific
   keys & tempos, producers in search of reference tracks, and anyone who enjoys finding
