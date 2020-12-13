@@ -241,7 +241,8 @@ st.markdown('''<h4>Use Spotify's API to find songs related to a track based on c
    new music.</h4>''', unsafe_allow_html=True)
 
 st.markdown('''<p>How to use: Enter a song and artist. Select your filters from the
-sidebar. If no filters are selected, default values from the searched track will be used. </p>''', unsafe_allow_html=True)
+sidebar. If no filters are selected, default values from the searched track will be used. Please note,
+if too specific of criteria are used it's possible no results will be returned.</p>''', unsafe_allow_html=True)
 
 st.markdown(
     """
