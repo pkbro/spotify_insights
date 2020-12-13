@@ -221,30 +221,32 @@ with st.sidebar.beta_expander("See Track Attribute Term Explanations"):
     st.markdown('''
     ## Terms
     - **BPM**: Beats Per Minute
-    - **Key**: Group of pitches that make a basis for composition of song.
+    - **Key**: Group of pitches that make a basis for a song or composition.
     - **Danceability**: A track's suitability for dancing based on a
     combination of musical elements including tempo, rhythm stability, beat strength,
     and overall regularity. 0.0 is least danceable and 1.0 is most danceable.
     - **Energy**: Represents a perceptual measure of intensity and
     activity...features contributing to this attribute include dynamic range, perceived
     loudness, timbre, onset rate, and general entropy. 0.0 is low energy and 1.0 is high.
-    - **Instrumentalness**: Confidence value of a track not having vocals. The closer the
+    - **Instrumentalness**: Confidence value of a track having no vocals. The closer the
     value is to 1.0, the greater likelihood the track contains no vocal content.
-    - **Valence**: Per Spotify, tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
+    - **Valence**: Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
     ''')
 st.markdown('<style>h1{font-family:"Franklin Gothic Medium", sans-serif;}</style>', unsafe_allow_html=True)
 st.markdown('<style>h4{font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif; font-weight: lighter;}', unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>Refine Your Recommendations</h1>", unsafe_allow_html=True)
-st.markdown('''<h4>Use Spotify's API to find songs related to a track based on criteria
- that you decide. This can be a useful tool for those looking to jam to songs in specific
+st.markdown('''<h4>Use Spotify's API to find songs related to a track based on criteria of your choosing. This can be a useful tool for those looking to jam to songs in specific
   keys & tempos, producers in search of reference tracks, and anyone who enjoys finding
    new music.</h4>''', unsafe_allow_html=True)
+
+st.markdown('''<p>How to use: Enter a song and artist. Select your filters from the
+sidebar. If no filters are selected, default values from the searched track will be used. </p>''', unsafe_allow_html=True)
 
 st.markdown(
     """
 <style>
 .sidebar .sidebar-content {
-    background: #A4E9BD;
+    background: #FEE4B6;
     color: black;
 }
 </style>
@@ -252,6 +254,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+#consider adding conditional or for searching only song
 def get_res():
     song_in = st.text_input("Song Title:", "").lower().strip()
     art_in = st.text_input("Artist:", "").lower().strip()
@@ -283,10 +286,11 @@ if first_res:
                     prog_bar.progress(i)
                 time.sleep(2)
                 placeholder.empty()
+                time.sleep(.25)
                 st.balloons()
                 final_rec_songs_lst = list(zip(r,aud_feats_lst))
                 for song, aud_feat in final_rec_songs_lst:
-                    time.sleep(.05)
+                    time.sleep(.01)
                     #display_track(song, get_search_aud_feats(song['track_uri']))
                     display_track(song, aud_feat)
             break
