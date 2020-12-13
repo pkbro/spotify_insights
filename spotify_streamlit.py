@@ -240,9 +240,8 @@ st.markdown('''<h4>Use Spotify's API to find songs related to a track based on c
   keys & tempos, producers in search of reference tracks, and anyone who enjoys finding
    new music.</h4>''', unsafe_allow_html=True)
 
-st.markdown('''<p>How to use: Enter a song and artist. Select your filters from the
-sidebar. If no filters are selected, default values from the searched track will be used. Please note,
-if too specific of criteria are used it's possible no results will be returned.</p>''', unsafe_allow_html=True)
+st.markdown('''<p>Enter song and artist. Select filters from
+sidebar. If no filters are selected, default values from the searched track are used. Note: No results will be returned if criteria is too specific.</p>''', unsafe_allow_html=True)
 
 st.markdown(
     """
