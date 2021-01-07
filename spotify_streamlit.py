@@ -156,12 +156,12 @@ def get_filters(filt_list, audio_feat_d):
         for x in filt_list:
             if x == "Key":
                 st.sidebar.markdown('''
-                Spotify allows for Key filtering beginning at C and extending to B. This is ordinally restricted, so selections must be a single key or in an ascending range.
+                Spotify allows for Key filtering beginning at C and extending to B. This is ordinally restricted, so selections must be a single key or in a contiguous range.
                 ''')
                 #select_slider return type is that of value parameter. A list here
                 #with lower and upper bounds rendered
                 key_range = st.sidebar.select_slider('Select a range for the Key(s) of Recommended Songs.', options=sorted_song_keys, value=('C',search_track_key))
-                song_attr_val = list(st.sidebar.radio("Select Mode(s). 0 for Minor, 1 for Major, 2 to include both modes (only Major and Minor modes supported by Spotify API.).".format(x),['0', '1', '2']))
+                song_attr_val = list(st.sidebar.radio("Select Mode(s). 0 = Minor, 1 = Major, 2 = Both modes (only Major and Minor modes supported by Spotify API.).".format(x),['0', '1', '2']))
                 song_attr_val.append(key_range)
             elif x == 'Tempo':
                 tempo_range = st.sidebar.slider("Select a Tempo Range For Recommended Songs",
@@ -240,14 +240,15 @@ st.markdown('''<h4>Use Spotify's API to find songs related to a track based on c
   keys & tempos, producers in search of reference tracks, and anyone who enjoys finding
    new music.</h4>''', unsafe_allow_html=True)
 
-st.markdown('''<p>Enter song and artist. Select filters from
-sidebar. If no filters are selected, default values from the searched track are used. Note: No results will be returned if filter criteria is too specific.</p>''', unsafe_allow_html=True)
+st.markdown('''<p>Enter a song and artist. Select your filters from the
+sidebar. If no custom filters are selected, filter values default to those of the
+searched track. Note: No results will be returned if filter criteria is too specific.</p>''', unsafe_allow_html=True)
 
 st.markdown(
     """
 <style>
 .sidebar .sidebar-content {
-    background: #FEE4B6;
+    background: #AAE5BF;
     color: black;
 }
 </style>
