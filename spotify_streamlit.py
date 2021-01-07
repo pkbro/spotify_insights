@@ -160,18 +160,18 @@ def get_filters(filt_list, audio_feat_d):
                 ''')
                 #select_slider return type is that of value parameter. A list here
                 #with lower and upper bounds rendered
-                key_range = st.sidebar.select_slider('Select a range for the Key(s) of Recommended Songs.', options=sorted_song_keys, value=('C',search_track_key))
-                song_attr_val = list(st.sidebar.radio("Select Mode(s). 0 = Minor, 1 = Major, 2 = Both modes (only Major and Minor modes supported by Spotify API.).".format(x),['0', '1', '2']))
+                key_range = st.sidebar.select_slider('Select a range for the Key(s) of recommended songs.', options=sorted_song_keys, value=('C',search_track_key))
+                song_attr_val = list(st.sidebar.radio("Select Mode(s). 0 = Minor, 1 = Major, 2 = Both modes (only Major and Minor modes supported by Spotify API)".format(x),['0', '1', '2']))
                 song_attr_val.append(key_range)
             elif x == 'Tempo':
-                tempo_range = st.sidebar.slider("Select a Tempo Range For Recommended Songs",
+                tempo_range = st.sidebar.slider("Select a Tempo range for recommended songs",
                 round(audio_feat_d['tempo']) - 30, round(audio_feat_d['tempo']) + 30,
                 (round(audio_feat_d['tempo']) - 15, round(audio_feat_d['tempo']) + 15))
                 song_attr_val = tempo_range
 
             #Filter on any attribute that is not key or tempo
             else:
-                label = "Select a Target {} For Recommended Songs. Tracks with attribute values nearest to the target will be preferred".format(x)
+                label = "Select a target {} for recommended songs. Songs with values nearest to the target will be prioritized".format(x)
                 song_attr_val = st.sidebar.slider(label, 0.01, 1.0, .01)
 
             if type(song_attr_val) == list: #musical key
@@ -240,8 +240,8 @@ st.markdown('''<h4>Use Spotify's API to find songs related to a track based on c
   keys & tempos, producers in search of reference tracks, and anyone who enjoys finding
    new music.</h4>''', unsafe_allow_html=True)
 
-st.markdown('''<p>Enter a song and artist. Select your filters from the
-sidebar. If no custom filters are selected, filter values default to those of the
+st.markdown('''<p>Enter a song and artist. Select filters from the
+sidebar. If no filters are selected, values will default to those of the
 searched track. Note: No results will be returned if filter criteria is too specific.</p>''', unsafe_allow_html=True)
 
 st.markdown(
@@ -270,10 +270,8 @@ if first_res:
             search_track_dict = set_search_track_values(first_res)
             audio_features = get_search_aud_feats(search_track_dict['track_uri'])
             display_track(search_track_dict, audio_features)
-            # if audio_features:
-            #     st.image("circle-of-fifths.jpg", caption="Circle of Fifths", use_column_width=True)
             # song_limit = st.slider("Choose a number of songs to return:")
-            filter_options = st.sidebar.multiselect("Select Desired Filters", ["Tempo", "Key", "Danceability", "Energy", "Instrumentalness", "Valence"], key='1')
+            filter_options = st.sidebar.multiselect("Select Filters", ["Tempo", "Key", "Danceability", "Energy", "Instrumentalness", "Valence"], key='1')
             final_filters = get_filters(filter_options, audio_features)
             if st.sidebar.button("Get Songs 🎵"):
                 r = get_recs(final_filters, search_track_dict)
